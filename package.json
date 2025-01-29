@@ -11,14 +11,30 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bigskysoftware/htmx-extensions.git"
+    "url": "git+https://github.com/xehrad/form-json.git"
   },
   "devDependencies": {
     "chai": "^4.3.10",
     "chai-dom": "^1.12.0",
     "mocha": "10.1.0",
-    "mocha-chrome": "https://github.com/Telroshan/mocha-chrome",
+    "mocha-chrome": "git+https://github.com/Telroshan/mocha-chrome.git",
     "sinon": "^9.2.4",
     "htmx.org": "^2.0.2"
-  }
+  },
+  "description": "An HTMX extension for automatic type conversion in form data encoding. automatically converts values based on input types, ensuring correct data representation in JSON without requiring additional attributes or configuration.",
+  "directories": {
+    "test": "test"
+  },
+  "keywords": [
+    "HTMX",
+    "extension",
+    "jsonenc",
+    "html-form"
+  ],
+  "author": "xehrad",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/xehrad/form-json/issues"
+  },
+  "homepage": "https://github.com/xehrad/form-json"
 }

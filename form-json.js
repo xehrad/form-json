@@ -1,9 +1,9 @@
 (function() {
   let api
-  const _ConfigIgnoreParseTypes_ = 'ignore-parse-types'
-  const _FlagObject_ = 'object'
-  const _FlagArray_ = 'array'
-  const _FlagValue_ = 'value'
+  const _ConfigIgnoreDeepKey_ = 'ignore-deep-key'
+  const _FlagObject_ = 'obj'
+  const _FlagArray_  = 'arr'
+  const _FlagValue_  = 'val'
 
   htmx.defineExtension('form-json', {
     init: function(apiRef) {
@@ -39,7 +39,7 @@
         object[key] = Object.hasOwn(vals, key) ? vals[key] : object[key]
       })
 
-      if(!api.hasAttribute(elt, _ConfigIgnoreParseTypes_)){
+      if(!api.hasAttribute(elt, _ConfigIgnoreDeepKey_)){
         const flagMap = getFlagMap(object)
         object = buildNestedObject(flagMap, object)
       }
