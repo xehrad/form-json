@@ -114,7 +114,7 @@ The extension automatically serializes `form data` into `JSON` for any form with
 
 #### Complex Nesting
 ```html
-<form enctype='application/json'>
+<form hx-ext="form-json" hx-post="/test">
   <input name='wow.such[deep][3][much][power][!]' value='Amaze'>
 </form>
 
@@ -144,7 +144,7 @@ The extension automatically serializes `form data` into `JSON` for any form with
 
 Optional attribute to skip parsing keys to struct:
 ```html
-<form enctype='application/json' ignore-deep-key >
+<form hx-ext="form-json" hx-post="/test" ignore-deep-key >
   <input name='wow.such[deep][3][much][power][!]' value='Amaze'>
 </form>
 
