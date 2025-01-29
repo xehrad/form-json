@@ -71,6 +71,7 @@ The extension automatically serializes `form data` into `JSON` for any form with
     "name": "file.pdf"
   }
 }
+-->
 ```
 
 #### Complex Nesting
@@ -108,6 +109,7 @@ The extension automatically serializes `form data` into `JSON` for any form with
   "bottle-on-wall": [1, 2, 3],
   "hind": "Bitable"
 }
+-->
 ```
 
 #### Complex Nesting
@@ -135,6 +137,7 @@ The extension automatically serializes `form data` into `JSON` for any form with
         }
     }
 }
+-->
 ```
 
 ### Attribute Ignore Deep Key
@@ -149,6 +152,7 @@ Optional attribute to skip parsing keys to struct:
 {
     "wow.such[deep][3][much][power][!]": "Amaze"
 }
+-->
 ```
 
 
