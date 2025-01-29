@@ -1,5 +1,5 @@
 # form-json
-This is an `HTMX` extension that enables the transformation of form data into a structured JSON object. The extension supports the [HTML JSON form](https://www.w3.org/TR/html-json-forms/) specification and works seamlessly with all examples outlined in the standard.
+This is an [HTMX](https://htmx.org/) extension that enables the transformation of form data into a structured JSON object. The extension supports the [HTML JSON form](https://www.w3.org/TR/html-json-forms/) specification and works seamlessly with all examples outlined in the standard.
 
 ## Features
 
@@ -15,7 +15,7 @@ This is an `HTMX` extension that enables the transformation of form data into a 
 Add the JavaScript file to your project and include it in your HTML:
 
 ```html
-<script src="https://unpkg.com/htmx-ext-form-json@1.0.0"></script>
+<script src="https://unpkg.com/htmx-ext-form-json@1.0.1"></script>
 ```
 
 Enable the extension in your htmx configuration:
@@ -58,6 +58,8 @@ The extension automatically serializes `form data` into `JSON` for any form with
 ```
 
 #### Files
+
+The `form-json` also supports file uploads. The values of files are themselves structured as objects and contain a `type` field indicating the MIME type, a `name` field containing the file name, and a `body` field with the file's content as base64.
 ```html
 <form hx-ext="form-json" hx-post="/test">
     <input type="file" name="document">
@@ -66,17 +68,18 @@ The extension automatically serializes `form data` into `JSON` for any form with
 <!-- Submission:
 {
   "document": {
-    "body": "Base64EncodedContent ... ",
     "type": "application/pdf",
-    "name": "file.pdf"
+    "name": "file.pdf",
+    "body": "SSBtdXN0IG5vdCBmZWFyLlxuRmVhciBpcyB0aGUgbWluZC1raWxsZXIuCg=="
   }
 }
 -->
 ```
 
 #### Complex Nesting
+
 ```html
-<form hx-ext="form-json" hx-post="/test">
+<form hx-ext="form-json" hx-post="/test" hx-vals='{"customValue": 87}'>
   <input name='pet.species' value='Dahut'>
   <input name='pet[name]'   value='Hypatia'>
   <input name='kids[1]' value='Thelma'>
@@ -94,6 +97,7 @@ The extension automatically serializes `form data` into `JSON` for any form with
 
 <!-- Submission:
 {
+  "customValue": 87,
   "pet":  {
     "species":  "Dahut",
     "name":     "Hypatia"
@@ -112,10 +116,53 @@ The extension automatically serializes `form data` into `JSON` for any form with
 -->
 ```
 
+#### Merge Behaviour
+
+The algorithm does not lose data in that every piece of information ends up being submitted. But given the path syntax, it is possible to introduce clashes such that one may attempt to set an object, an array, and a scalar value on the same key.
+
+```html
+<form hx-ext="form-json" hx-post="/test">
+  <input name='mix'      value='scalar'>
+  <input name='mix[0]'   value='array 1'>
+  <input name='mix[2]'   value='array 2'>
+  <input name='mix.key'  value='key key'>
+  <input name='mix[car]' value='car key'>
+</form>
+
+<!-- Submission:
+{
+  "mix":  {
+    "":     "scalar",
+    "0":    "array 1",
+    "2":    "array 2",
+    "key":  "key key",
+    "car":  "car key"
+    }
+}
+-->
+```
+
+#### Append
+
+an array irrespective of the number of its items, and without resorting to indices, one may use the append notation (only as the final step in a path)
+
+```html
+<form hx-ext="form-json" hx-post="/test">
+  <input name='highlander[]' value='one'>
+  <input name='highlander[]' value='twe'>
+</form>
+
+<!-- Submission:
+{
+  "highlander":  ["one", "twe"]
+}
+-->
+```
+
 #### Complex Nesting
 ```html
 <form hx-ext="form-json" hx-post="/test">
-  <input name='wow.such[deep][3][much][power][!]' value='Amaze'>
+  <input name='wow.such[deep][3][much].power[!]' value='Amaze'>
 </form>
 
 <!-- Submission:
@@ -154,7 +201,6 @@ Optional attribute to skip parsing keys to struct:
 }
 -->
 ```
-
 
 ## Development
 
