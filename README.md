@@ -32,27 +32,51 @@ The extension automatically serializes `form data` into `JSON` for any form with
 
 ### Examples from the HTML JSON Forms Specification
 
-#### Mixed Structures
+#### Type Preservation
 ```html
 <form hx-ext="form-json" hx-post="/test">
-    <input name="name"   value="John" />
-    <input name="age"    type="number"   value="30" />
-    <input name="config" type="checkbox" checked />
-    <input name="pet[0].name" value="Foo" />
-    <input name="pet[0].type" value="Dog" />
-    <input name="pet[1].name" value="Boo" />
-    <input name="pet[1].type" value="Cat" />
+  <input name="name"    type="text"     value="John" />
+  <input name="age"     type="number"   value="30" />
+  <input name="boolean" type="checkbox" checked />
+  <input name="list"    type="number"   value="1">
+  <input name="list"    type="number"   value="2">
+  <input name="list"    type="number"   value="3">
 </form>
 
 <!-- Submission:
 {
     "name": "John",
     "age": 30,
-    "config": true,
-    "pet":[
-        {"name": "Foo", "type": "Dog"},
-        {"name": "Boo", "type": "Cat"},
+    "boolean": true,
+    "list": [1, 2, 3]
+}
+-->
+```
+
+#### Complex Nesting
+
+```html
+<form hx-ext="form-json" hx-post="/test" hx-vals='{"customValue": 87}'>
+  <input name='pet.species' value='Dahut'>
+  <input name='pet[name]'   value='Hypatia'>
+  <input name="data.person[2].name" value="Bob">
+  <input name="data.person.0.name" value="Alice">
+</form>
+
+<!-- Submission:
+{
+  "customValue": 87,
+  "pet":  {
+    "species":  "Dahut",
+    "name":     "Hypatia"
+  },
+  "data": {
+    "person": [
+      { "name": "Alice" },
+      null,
+      { "name": "Bob" }
     ]
+  }
 }
 -->
 ```
@@ -72,46 +96,6 @@ The `form-json` also supports file uploads. The values of files are themselves s
     "name": "file.pdf",
     "body": "SSBtdXN0IG5vdCBmZWFyLlxuRmVhciBpcyB0aGUgbWluZC1raWxsZXIuCg=="
   }
-}
--->
-```
-
-#### Complex Nesting
-
-```html
-<form hx-ext="form-json" hx-post="/test" hx-vals='{"customValue": 87}'>
-  <input name='pet.species' value='Dahut'>
-  <input name='pet[name]'   value='Hypatia'>
-  <input name='kids[1]' value='Thelma'>
-  <input name='kids.0'  value='Ashley'>
-  <input name="data.person[0].name" value="Alice">
-  <input name="data.person[2].name" value="Bob">
-  <input type='number' name='bottle-on-wall' value='1'>
-  <input type='number' name='bottle-on-wall' value='2'>
-  <input type='number' name='bottle-on-wall' value='3'>
-  <select name='hind'>
-    <option selected>Bitable</option>
-    <option>Kickable</option>
-  </select>
-</form>
-
-<!-- Submission:
-{
-  "customValue": 87,
-  "pet":  {
-    "species":  "Dahut",
-    "name":     "Hypatia"
-  },
-  "kids": ["Ashley", "Thelma"],
-  "data": {
-    "person": [
-      { "name": "Alice" },
-      null,
-      { "name": "Bob" }
-    ]
-  },
-  "bottle-on-wall": [1, 2, 3],
-  "hind": "Bitable"
 }
 -->
 ```
@@ -209,3 +193,7 @@ To contribute, clone the repository and submit pull requests for features or bug
 ## License
 
 This project is licensed under the GNU GENERAL PUBLIC LICENSE V3. See the LICENSE file for details.
+
+
+
+| [form-json](https://github.com/xehrad/form-json/blob/main/README.md)                                                     | This extension serializes `form` data into structured `JSON`, supporting nested structures using dot (`.`) or bracket (`[]`) notation. It preserves data types, ensuring accurate handling of numbers, booleans, and file inputs (encoded as Base64).                                         |
