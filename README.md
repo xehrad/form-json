@@ -21,7 +21,7 @@ Add the JavaScript file to your project and include it in your HTML:
 Enable the extension in your htmx configuration:
 
 ```html
-<form hx-ext="form-json" hx-post="/test" hx-vals='{"customValue": 42}'>
+<form hx-ext="form-json" hx-post="/test">
     ...
 </form>
 ```
@@ -56,9 +56,9 @@ The extension automatically serializes `form data` into `JSON` for any form with
 #### Complex Nesting
 
 ```html
-<form hx-ext="form-json" hx-post="/test" hx-vals='{"customValue": 87}'>
-  <input name='pet.species' value='Dahut'>
-  <input name='pet[name]'   value='Hypatia'>
+<form hx-ext="form-json" hx-post="/test" hx-vals="{"customValue": 87}">
+  <input name="pet.species" value="Dahut">
+  <input name="pet[name]"   value="Hypatia">
   <input name="data.person[2].name" value="Bob">
   <input name="data.person.0.name" value="Alice">
 </form>
@@ -83,7 +83,7 @@ The extension automatically serializes `form data` into `JSON` for any form with
 
 #### Files
 
-The `form-json` also supports file uploads. The values of files are themselves structured as objects and contain a `type` field indicating the MIME type, a `name` field containing the file name, and a `body` field with the file's content as base64.
+The `form-json` also supports file uploads. The values of files are themselves structured as objects and contain a `type` field indicating the MIME type, a `name` field containing the file name, and a `body` field with the file"s content as base64.
 ```html
 <form hx-ext="form-json" hx-post="/test">
     <input type="file" name="document">
@@ -106,11 +106,11 @@ The algorithm does not lose data in that every piece of information ends up bein
 
 ```html
 <form hx-ext="form-json" hx-post="/test">
-  <input name='mix'      value='scalar'>
-  <input name='mix[0]'   value='array 1'>
-  <input name='mix[2]'   value='array 2'>
-  <input name='mix.key'  value='key key'>
-  <input name='mix[car]' value='car key'>
+  <input name="mix"      value="scalar">
+  <input name="mix[0]"   value="array 1">
+  <input name="mix[2]"   value="array 2">
+  <input name="mix.key"  value="key key">
+  <input name="mix[car]" value="car key">
 </form>
 
 <!-- Submission:
@@ -132,8 +132,8 @@ an array irrespective of the number of its items, and without resorting to indic
 
 ```html
 <form hx-ext="form-json" hx-post="/test">
-  <input name='highlander[]' value='one'>
-  <input name='highlander[]' value='twe'>
+  <input name="highlander[]" value="one">
+  <input name="highlander[]" value="twe">
 </form>
 
 <!-- Submission:
@@ -146,7 +146,7 @@ an array irrespective of the number of its items, and without resorting to indic
 #### Complex Nesting
 ```html
 <form hx-ext="form-json" hx-post="/test">
-  <input name='wow.such[deep][3][much].power[!]' value='Amaze'>
+  <input name="wow.such[deep][3][much].power[!]" value="Amaze">
 </form>
 
 <!-- Submission:
@@ -176,7 +176,7 @@ an array irrespective of the number of its items, and without resorting to indic
 Optional attribute to skip parsing keys to struct:
 ```html
 <form hx-ext="form-json" hx-post="/test" ignore-deep-key >
-  <input name='wow.such[deep][3][much][power][!]' value='Amaze'>
+  <input name="wow.such[deep][3][much][power][!]" value="Amaze">
 </form>
 
 <!-- Submission:
