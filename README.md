@@ -193,7 +193,3 @@ To contribute, clone the repository and submit pull requests for features or bug
 ## License
 
 This project is licensed under the GNU GENERAL PUBLIC LICENSE V3. See the LICENSE file for details.
-
-
-
-| [form-json](https://github.com/xehrad/form-json/blob/main/README.md)                                                     | This extension serializes `form` data into structured `JSON`, supporting nested structures using dot (`.`) or bracket (`[]`) notation. It preserves data types, ensuring accurate handling of numbers, booleans, and file inputs (encoded as Base64).                                         |
