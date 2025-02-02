@@ -14,7 +14,7 @@ This is an [HTMX](https://htmx.org/) extension that enables the transformation o
 Add the JavaScript file to your project and include it in your HTML:
 
 ```html
-<script src="https://unpkg.com/htmx-ext-form-json@1.0.4"></script>
+<script src="https://unpkg.com/htmx-ext-form-json"></script>
 ```
 
 Enable the extension in your htmx configuration:
