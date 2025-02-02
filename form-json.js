@@ -16,7 +16,7 @@
       }
     },
 
-    encodeParameters: async function(xhr, parameters, elt) {
+    encodeParameters: function(xhr, parameters, elt) {
       let object = {}
       xhr.overrideMimeType('text/json')
 
@@ -53,9 +53,9 @@
       return Array.isArray(value) ? value.map(Number) : Number(value)
     } else if (inputType === 'checkbox') {
       return true
-    } else if (inputType === 'file') {
+    } /*else if (inputType === 'file') {
       return handleFileInput(input)
-    }
+    }*/
     return value
   }
 

@@ -7,7 +7,6 @@ This is an [HTMX](https://htmx.org/) extension that enables the transformation o
 - **Nested Structures**: Supports complex nested structures with dot (`.`) or bracket (`[]`) notation.
 - **Array and Object Handling**: Automatically detects arrays, objects, and scalar values based on field names and their indices.
 - **Type Preservation**: Ensures correct typing for number, boolean, file, and other input types.
-- **File Uploads**: Encodes file inputs as Base64 for seamless transmission.
 - **Compatibility with `htmx`**: Integrates with `htmx` events to set appropriate headers and handle form submissions.
 
 ## Install
@@ -15,7 +14,7 @@ This is an [HTMX](https://htmx.org/) extension that enables the transformation o
 Add the JavaScript file to your project and include it in your HTML:
 
 ```html
-<script src="https://unpkg.com/htmx-ext-form-json@1.0.1"></script>
+<script src="https://unpkg.com/htmx-ext-form-json@1.0.2"></script>
 ```
 
 Enable the extension in your htmx configuration:
@@ -81,26 +80,7 @@ The extension automatically serializes `form data` into `JSON` for any form with
 -->
 ```
 
-#### Files
-
-The `form-json` also supports file uploads. The values of files are themselves structured as objects and contain a `type` field indicating the MIME type, a `name` field containing the file name, and a `body` field with the file"s content as base64.
-```html
-<form hx-ext="form-json" hx-post="/test">
-    <input type="file" name="document">
-</form>
-
-<!-- Submission:
-{
-  "document": {
-    "type": "application/pdf",
-    "name": "file.pdf",
-    "body": "SSBtdXN0IG5vdCBmZWFyLlxuRmVhciBpcyB0aGUgbWluZC1raWxsZXIuCg=="
-  }
-}
--->
-```
-
-#### Merge Behaviour
+#### Merge Behavior
 
 The algorithm does not lose data in that every piece of information ends up being submitted. But given the path syntax, it is possible to introduce clashes such that one may attempt to set an object, an array, and a scalar value on the same key.
 
