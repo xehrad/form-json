@@ -55,7 +55,7 @@ The extension automatically serializes `form data` into `JSON` for any form with
 #### Complex Nesting
 
 ```html
-<form hx-ext="form-json" hx-post="/test" hx-vals="{"customValue": 87}">
+<form hx-ext="form-json" hx-post="/test">
   <input name="pet.species" value="Dahut">
   <input name="pet[name]"   value="Hypatia">
   <input name="data.person[2].name" value="Bob">
@@ -64,7 +64,6 @@ The extension automatically serializes `form data` into `JSON` for any form with
 
 <!-- Submission:
 {
-  "customValue": 87,
   "pet":  {
     "species":  "Dahut",
     "name":     "Hypatia"
@@ -76,6 +75,21 @@ The extension automatically serializes `form data` into `JSON` for any form with
       { "name": "Bob" }
     ]
   }
+}
+-->
+```
+
+#### Hidden Value
+
+```html
+<form hx-ext="form-json" hx-post="/test" hx-vals='{"customValue": 87}'>
+  <input name="foo" value="bar">
+</form>
+
+<!-- Submission:
+{
+  "customValue": 87,
+  "foo":  "bar"
 }
 -->
 ```
