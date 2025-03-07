@@ -43,7 +43,6 @@
         const flagMap = getFlagMap(object)
         object = buildNestedObject(flagMap, object)
       }
-
       return (JSON.stringify(object))
     }
   })
@@ -52,7 +51,7 @@
     if (inputType == 'number' || inputType == 'range') {
       return Array.isArray(value) ? value.map(Number) : Number(value)
     } else if (inputType === 'checkbox') {
-      return true
+      return input.defaultValue || true
     } /*else if (inputType === 'file') {
       return handleFileInput(input)
     }*/

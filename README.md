@@ -14,6 +14,7 @@ This is an [HTMX](https://htmx.org/) extension that enables the transformation o
 Add the JavaScript file to your project and include it in your HTML:
 
 ```html
+<script src="https://unpkg.com/htmx.org@2.0.4"></script>
 <script src="https://unpkg.com/htmx-ext-form-json"></script>
 ```
 
@@ -33,20 +34,22 @@ The extension automatically serializes `form data` into `JSON` for any form with
 
 #### Type Preservation
 ```html
-<form hx-ext="form-json" hx-post="/test">
-  <input name="name"    type="text"     value="John" />
-  <input name="age"     type="number"   value="30" />
-  <input name="boolean" type="checkbox" checked />
-  <input name="list"    type="number"   value="1">
-  <input name="list"    type="number"   value="2">
-  <input name="list"    type="number"   value="3">
+<form hx-ext="form-json"   hx-post="/test">
+  <input name="name"       type="text"     value="John" />
+  <input name="age"        type="number"   value="30" />
+  <input name="checkbox_1" type="checkbox"              checked />
+  <input name="checkbox_2" type="checkbox" value="data" checked />
+  <input name="list"       type="number"   value="1" />
+  <input name="list"       type="number"   value="2" />
+  <input name="list"       type="number"   value="3" />
 </form>
 
 <!-- Submission:
 {
     "name": "John",
     "age": 30,
-    "boolean": true,
+    "checkbox_1": true,
+    "checkbox_2": "data",
     "list": [1, 2, 3]
 }
 -->
@@ -56,10 +59,10 @@ The extension automatically serializes `form data` into `JSON` for any form with
 
 ```html
 <form hx-ext="form-json" hx-post="/test">
-  <input name="pet.species" value="Dahut">
-  <input name="pet[name]"   value="Hypatia">
-  <input name="data.person[2].name" value="Bob">
-  <input name="data.person.0.name" value="Alice">
+  <input name="pet.species" value="Dahut" />
+  <input name="pet[name]"   value="Hypatia" />
+  <input name="data.person[2].name" value="Bob" />
+  <input name="data.person.0.name" value="Alice" />
 </form>
 
 <!-- Submission:
@@ -83,7 +86,7 @@ The extension automatically serializes `form data` into `JSON` for any form with
 
 ```html
 <form hx-ext="form-json" hx-post="/test" hx-vals='{"customValue": 87}'>
-  <input name="foo" value="bar">
+  <input name="foo" value="bar" />
 </form>
 
 <!-- Submission:
@@ -100,11 +103,11 @@ The algorithm does not lose data in that every piece of information ends up bein
 
 ```html
 <form hx-ext="form-json" hx-post="/test">
-  <input name="mix"      value="scalar">
-  <input name="mix[0]"   value="array 1">
-  <input name="mix[2]"   value="array 2">
-  <input name="mix.key"  value="key key">
-  <input name="mix[car]" value="car key">
+  <input name="mix"      value="scalar"  />
+  <input name="mix[0]"   value="array 1" />
+  <input name="mix[2]"   value="array 2" />
+  <input name="mix.key"  value="key key" />
+  <input name="mix[car]" value="car key" />
 </form>
 
 <!-- Submission:
@@ -126,8 +129,8 @@ an array irrespective of the number of its items, and without resorting to indic
 
 ```html
 <form hx-ext="form-json" hx-post="/test">
-  <input name="highlander[]" value="one">
-  <input name="highlander[]" value="twe">
+  <input name="highlander[]" value="one" />
+  <input name="highlander[]" value="twe" />
 </form>
 
 <!-- Submission:
@@ -140,7 +143,7 @@ an array irrespective of the number of its items, and without resorting to indic
 #### Complex Nesting
 ```html
 <form hx-ext="form-json" hx-post="/test">
-  <input name="wow.such[deep][3][much].power[!]" value="Amaze">
+  <input name="wow.such[deep][3][much].power[!]" value="Amaze" />
 </form>
 
 <!-- Submission:
@@ -170,7 +173,7 @@ an array irrespective of the number of its items, and without resorting to indic
 Optional attribute to skip parsing keys to struct:
 ```html
 <form hx-ext="form-json" hx-post="/test" ignore-deep-key >
-  <input name="wow.such[deep][3][much][power][!]" value="Amaze">
+  <input name="wow.such[deep][3][much][power][!]" value="Amaze" />
 </form>
 
 <!-- Submission:
