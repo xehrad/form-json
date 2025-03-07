@@ -82,7 +82,7 @@
 
   function getFlagMap(map) {
     const flagMap = {}
-
+    
     for (const key in map) {
         const parts = splitKey(key)
         parts.forEach((part, i) => {
