@@ -84,16 +84,22 @@ The extension automatically serializes `form data` into `JSON` for any form with
 
 #### Hidden Value
 
-two ways to send **hidden values** in **form**, Using a hidden input field (`<input type="hidden">`) or `hx-vals` to inject custom values dynamically
+There are two ways to send **hidden values** in a form:  
+
+1. Using a hidden input field (`<input type="hidden">`).
+2. Using `hx-vals` to inject custom values dynamically.
+
+Note: that hidden input fields always send values as **strings**, which means if you're dealing with **Boolean** or **Number** types, you should use `hx-vals` to ensure the correct data type is sent.
 
 ```html
-<form hx-ext="form-json" hx-post="/test" hx-vals='{"customValue": 87}'>
+<form hx-ext="form-json" hx-post="/test" hx-vals='{"customValue": 87, "boolean": true}'>
   <input type="hidden" name="foo" value="bar" />
 </form>
 
 <!-- Submission:
 {
   "customValue": 87,
+  "boolean": true,
   "foo":  "bar"
 }
 -->
