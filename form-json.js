@@ -52,26 +52,8 @@
       return Array.isArray(value) ? value.map(Number) : Number(value)
     } else if (inputType === 'checkbox') {
       return input.defaultValue || true
-    } /*else if (inputType === 'file') {
-      return handleFileInput(input)
-    }*/
+    }
     return value
-  }
-
-  function handleFileInput(input) {
-    return new Promise((resolve) => {
-      const file = input.files[0]
-      const reader = new FileReader()
-      reader.onloadend = function() {
-        // Since it contains the Data URI, we should remove the prefix and keep only Base64 string
-        resolve({
-          'body': reader.result.replace(/^data:.+;base64,/, ''),
-          'type': file.type,
-          'name': file.name,
-        })
-      }
-      reader.readAsDataURL(file)
-    })
   }
 
   function splitKey(key) {
