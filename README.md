@@ -195,6 +195,3 @@ Optional attribute to skip parsing keys to struct:
 
 To contribute, clone the repository and submit pull requests for features or bug fixes. Ensure all new functionality aligns with the [HTML JSON form](https://www.w3.org/TR/html-json-forms/) standard.
 
-## License
-
-This project is licensed under the GNU GENERAL PUBLIC LICENSE V3. See the LICENSE file for details.
