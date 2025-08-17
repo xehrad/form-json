@@ -51,7 +51,7 @@
     if (inputType == 'number' || inputType == 'range') {
       return Array.isArray(value) ? value.map(Number) : Number(value)
     } else if (inputType === 'checkbox') {
-      return input.defaultValue || true
+      return value || true
     }
     return value
   }
