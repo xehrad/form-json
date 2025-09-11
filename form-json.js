@@ -18,12 +18,35 @@
 
     encodeParameters: function (xhr, parameters, elt) {
       let object = {}
-      xhr.overrideMimeType('text/json')
+      xhr.overrideMimeType('application/json')
 
+      // --- Handle checkboxes manually ---
+      elt.querySelectorAll('input[type="checkbox"]').forEach(input => {
+        if (!input.name) return
+        const key = input.name.endsWith("[]") ? input.name.slice(0, -2) : input.name
+
+        // If multiple checkboxes share the same name → always array
+        if (elt.querySelectorAll(`input[name="${input.name}"]`).length > 1) {
+          if (!object[key]) object[key] = []
+          if (input.checked) {
+            const val = input.value && input.value !== "on" ? input.value : true
+            object[key].push(val)
+          }
+        } else {
+          // Single checkbox → true/false
+          object[key] = input.checked
+            ? (input.value && input.value !== "on" ? input.value : true)
+            : false
+        }
+      })
+
+      // --- Handle all other fields via FormData ---
       for (const [key, value] of parameters.entries()) {
         const input = elt.querySelector(`[name="${key}"]`)
+        if (input && input.type === "checkbox") continue // skip checkboxes
+
         const transformedValue = input ? convertValue(input, value, input.type) : value
-        if (Object.hasOwn(object, key)) {
+        if (Object.prototype.hasOwnProperty.call(object, key)) {
           if (!Array.isArray(object[key])) {
             object[key] = [object[key]]
           }
@@ -33,17 +56,17 @@
         }
       }
 
-      // FormData encodes values as strings, restore hx-vals/hx-vars with their initial types
+      // Restore hx-vals / hx-vars
       const vals = api.getExpressionVars(elt)
       Object.keys(object).forEach(function (key) {
-        object[key] = Object.hasOwn(vals, key) ? vals[key] : object[key]
+        object[key] = Object.prototype.hasOwnProperty.call(vals, key) ? vals[key] : object[key]
       })
 
       if (!api.hasAttribute(elt, _ConfigIgnoreDeepKey_)) {
         const flagMap = getFlagMap(object)
         object = buildNestedObject(flagMap, object)
       }
-      return (JSON.stringify(object))
+      return JSON.stringify(object)
     }
   })
 
@@ -51,10 +74,7 @@
     if (inputType == 'number' || inputType == 'range') {
       return Array.isArray(value) ? value.map(Number) : Number(value)
     } else if (inputType === 'checkbox') {
-      if (input.defaultValue) {
-        return input.defaultChecked ? input.defaultValue : value
-      }
-      return true
+      return input.value && input.value !== "on" ? input.value : true
     }
     return value
   }
