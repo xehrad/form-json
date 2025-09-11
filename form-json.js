@@ -24,16 +24,17 @@
       elt.querySelectorAll('input[type="checkbox"]').forEach(input => {
         if (!input.name) return
         const key = input.name.endsWith("[]") ? input.name.slice(0, -2) : input.name
+        const group = elt.querySelectorAll(`input[name="${input.name}"]`)
 
-        // If multiple checkboxes share the same name → always array
-        if (elt.querySelectorAll(`input[name="${input.name}"]`).length > 1) {
+        // Multiple checkboxes → array of checked values
+        if (group.length > 1) {
           if (!object[key]) object[key] = []
           if (input.checked) {
             const val = input.value && input.value !== "on" ? input.value : true
             object[key].push(val)
           }
         } else {
-          // Single checkbox → true/false
+          // Single checkbox → true/false or value/false
           object[key] = input.checked
             ? (input.value && input.value !== "on" ? input.value : true)
             : false
@@ -62,6 +63,7 @@
         object[key] = Object.prototype.hasOwnProperty.call(vals, key) ? vals[key] : object[key]
       })
 
+      // Build nested objects unless disabled
       if (!api.hasAttribute(elt, _ConfigIgnoreDeepKey_)) {
         const flagMap = getFlagMap(object)
         object = buildNestedObject(flagMap, object)
@@ -71,10 +73,10 @@
   })
 
   function convertValue(input, value, inputType) {
-    if (inputType == 'number' || inputType == 'range') {
+    if (inputType === 'number' || inputType === 'range') {
       return Array.isArray(value) ? value.map(Number) : Number(value)
     } else if (inputType === 'checkbox') {
-      return input.value && input.value !== "on" ? input.value : true
+       return input.value && input.value !== "on" ? input.value : true
     }
     return value
   }
@@ -87,7 +89,6 @@
 
   function getFlagMap(map) {
     const flagMap = {}
-
     for (const key in map) {
       const parts = splitKey(key)
       parts.forEach((part, i) => {
@@ -106,20 +107,17 @@
         }
       })
     }
-
     return flagMap
   }
 
   function buildNestedObject(flagMap, map) {
     const out = {}
-
     for (const key in map) {
       const parts = splitKey(key)
       let current = out
       parts.forEach((part, i) => {
         const path = parts.slice(0, i + 1).join('.')
         const isLastPart = i === parts.length - 1
-
         if (isLastPart) {
           if (flagMap[path] === _FlagObject_) {
             current[part] = { '': map[key] }
@@ -132,7 +130,6 @@
         } else if (!current.hasOwnProperty(part)) {
           current[part] = flagMap[path] === _FlagArray_ ? [] : {}
         }
-
         current = current[part]
       })
     }
