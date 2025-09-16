@@ -176,9 +176,11 @@ an array irrespective of the number of its items, and without resorting to indic
 -->
 ```
 
-### Attribute Ignore Deep Key
+## Attribute
 
-Optional attribute to skip parsing keys to struct:
+### Attribute `ignore-deep-key`
+
+Ignore Deep Key is Optional attribute to skip parsing keys to struct:
 ```html
 <form hx-ext="form-json" hx-post="/test" ignore-deep-key >
   <input name="wow.such[deep][3][much][power][!]" value="Amaze" />
@@ -187,6 +189,44 @@ Optional attribute to skip parsing keys to struct:
 <!-- Submission:
 {
     "wow.such[deep][3][much][power][!]": "Amaze"
+}
+-->
+```
+
+### Attribute `ignore-drop-false-option`
+
+By default, unchecked single checkboxes are **omitted** from the JSON output (same as HTML form submission behavior).
+
+If you add the `ignore-drop-false-option` attribute to your `<form>`, unchecked single checkboxes will instead be included with a `false` value.
+
+```html
+<form hx-ext="form-json" hx-post="/test" ignore-drop-false-option>
+  <input type="checkbox" name="newsletter" />
+</form>
+
+<!-- Submission:
+{
+  "newsletter": false
+}
+-->
+```
+
+### Attribute `ignore-drop-false-option-array`
+
+By default, unchecked checkboxes in a group (`name="options[]"`) are omitted, and only checked values are included in the array.
+
+If you add the `ignore-drop-false-option-array` attribute to your `<form>`, unchecked checkboxes in a group will explicitly push `false` into the array.
+
+```html
+<form hx-ext="form-json" hx-post="/test" ignore-drop-false-option-array>
+  <label><input type="checkbox" name="options[]" value="A" checked /> A </label>
+  <label><input type="checkbox" name="options[]" value="B"         /> B </label>
+  <label><input type="checkbox" name="options[]" value="C"         /> C </label>
+</form>
+
+<!-- Submission:
+{
+  "options": ["A", false, false]
 }
 -->
 ```

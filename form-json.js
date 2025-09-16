@@ -1,6 +1,8 @@
 (function () {
   let api
   const _ConfigIgnoreDeepKey_ = 'ignore-deep-key'
+  const _ConfigIgnoreDropFalseOption_ = 'ignore-drop-false-option'
+  const _ConfigIgnoreDropFalseOptionArray_ = 'ignore-drop-false-option-array'
   const _FlagObject_ = 'obj'
   const _FlagArray_ = 'arr'
   const _FlagValue_ = 'val'
@@ -32,12 +34,16 @@
           if (input.checked) {
             const val = input.value && input.value !== "on" ? input.value : true
             object[key].push(val)
+          } else if (api.hasAttribute(elt, _ConfigIgnoreDropFalseOptionArray_)) {
+            object[key].push(false)
           }
         } else {
           // Single checkbox → true/false or value/false
-          object[key] = input.checked
-            ? (input.value && input.value !== "on" ? input.value : true)
-            : false
+          if (input.checked) {
+            object[key] = input.value && input.value !== "on" ? input.value : true
+          } else if (api.hasAttribute(elt, _ConfigIgnoreDropFalseOption_)) {
+            object[key] = false
+          }
         }
       })
 
@@ -75,8 +81,6 @@
   function convertValue(input, value, inputType) {
     if (inputType === 'number' || inputType === 'range') {
       return Array.isArray(value) ? value.map(Number) : Number(value)
-    } else if (inputType === 'checkbox') {
-       return input.value && input.value !== "on" ? input.value : true
     }
     return value
   }
