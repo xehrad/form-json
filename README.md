@@ -235,3 +235,8 @@ If you add the `ignore-drop-false-option-array` attribute to your `<form>`, unch
 
 To contribute, clone the repository and submit pull requests for features or bug fixes. Ensure all new functionality aligns with the [HTML JSON form](https://www.w3.org/TR/html-json-forms/) standard.
 
+---
+
+## ⭐️ Like it? Star it!
+
+If this project saves you time or sparks ideas, please [⭐ star the repo](https://github.com/xehrad/form-json) — it really helps us grow the community.

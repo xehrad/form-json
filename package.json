@@ -34,7 +34,7 @@
     "JSON-form"
   ],
   "author": "xehrad",
-  "license": "GPL-3.0",
+  "license": "Zero-Clause BSD",
   "bugs": {
     "url": "https://github.com/xehrad/form-json/issues"
   },
