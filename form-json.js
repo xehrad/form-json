@@ -7,20 +7,19 @@
   const _FlagArray_ = 'arr'
   const _FlagValue_ = 'val'
 
-  htmx.defineExtension('form-json', {
+  htmx.registerExtension('form-json', {
     init: function (apiRef) {
       api = apiRef
     },
 
-    onEvent: function (name, evt) {
-      if (name === 'htmx:configRequest') {
-        evt.detail.headers['Content-Type'] = 'application/json'
+    htmx_before_request: function (elt, detail) {
+      if (!api.attributeValue(elt, 'hx-form-json')) {
+        return;
       }
-    },
 
-    encodeParameters: function (xhr, parameters, elt) {
       let object = {}
-      xhr.overrideMimeType('application/json')
+      const xhr = detail.ctx.request
+      xhr.headers['Content-Type'] = 'application/json'
 
       // --- Handle checkboxes manually ---
       elt.querySelectorAll('input[type="checkbox"]').forEach(input => {
@@ -34,21 +33,22 @@
           if (input.checked) {
             const val = input.value && input.value !== "on" ? input.value : true
             object[key].push(val)
-          } else if (api.hasAttribute(elt, _ConfigIgnoreDropFalseOptionArray_)) {
+          } else if (api.attributeValue(elt, _ConfigIgnoreDropFalseOptionArray_)) {
             object[key].push(false)
           }
         } else {
           // Single checkbox → true/false or value/false
           if (input.checked) {
             object[key] = input.value && input.value !== "on" ? input.value : true
-          } else if (api.hasAttribute(elt, _ConfigIgnoreDropFalseOption_)) {
+          } else if (api.attributeValue(elt, _ConfigIgnoreDropFalseOption_)) {
             object[key] = false
           }
         }
       })
 
       // --- Handle all other fields via FormData ---
-      for (const [key, value] of parameters.entries()) {
+      // Will throw when called on non Form elements
+      for (const [key, value] of (new FormData(elt)).entries()) {
         const input = elt.querySelector(`[name="${key}"]`)
         if (input && input.type === "checkbox") continue // skip checkboxes
 
@@ -63,18 +63,20 @@
         }
       }
 
-      // Restore hx-vals / hx-vars
-      const vals = api.getExpressionVars(elt)
-      Object.keys(object).forEach(function (key) {
-        object[key] = Object.prototype.hasOwnProperty.call(vals, key) ? vals[key] : object[key]
-      })
+      // Restore hx-vals
+      const vals = api.attributeValue(elt, 'hx-vals')
+      if (vals) {
+        Object.keys(object).forEach(function (key) {
+            object[key] = Object.prototype.hasOwnProperty.call(vals, key) ? vals[key] : object[key]
+        })
+      }
 
       // Build nested objects unless disabled
-      if (!api.hasAttribute(elt, _ConfigIgnoreDeepKey_)) {
+      if (!api.attributeValue(elt, _ConfigIgnoreDeepKey_)) {
         const flagMap = getFlagMap(object)
         object = buildNestedObject(flagMap, object)
       }
-      return JSON.stringify(object)
+      xhr.body = JSON.stringify(object)
     }
   })
 
