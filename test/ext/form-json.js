@@ -156,6 +156,46 @@ describe('json-enc extension', function() {
     chai.assert.deepEqual(values.array, ['text', 123, {'key': 'value'}])
   })
 
+  it('handles explicit checkbox Array with single item', function() {
+    this.server.respondWith('POST', '/test', function(xhr) {
+      var values = JSON.parse(xhr.requestBody)
+      values.should.have.keys('foo')
+      values.foo.should.be.instanceOf(Array)
+      values.foo.length.should.equal(1)
+      values.foo[0].should.equal('A')
+      xhr.respond(200, {}, 'OK')
+    })
+
+    var form = make('<form hx-post="/test" hx-ext="form-json" > ' +
+      '<input type="checkbox" name="foo[]" value="A" checked>' +
+      '<button id="btnSubmit">Submit</button>' +
+      '</form>')
+
+    byId('btnSubmit').click()
+    this.server.respond()
+    form.innerHTML.should.equal('OK')
+  })
+
+  it('handles explicit input Array with single item', function() {
+    this.server.respondWith('POST', '/test', function(xhr) {
+      var values = JSON.parse(xhr.requestBody)
+      values.should.have.keys('foo')
+      values.foo.should.be.instanceOf(Array)
+      values.foo.length.should.equal(1)
+      values.foo[0].should.equal('A')
+      xhr.respond(200, {}, 'OK')
+    })
+
+    var form = make('<form hx-post="/test" hx-ext="form-json" > ' +
+      '<input type="text" name="foo[]" value="A">' +
+      '<button id="btnSubmit">Submit</button>' +
+      '</form>')
+
+    byId('btnSubmit').click()
+    this.server.respond()
+    form.innerHTML.should.equal('OK')
+  })
+
   it('handles multiple values per key', function() {
     this.server.respondWith('POST', '/test', function(xhr) {
       var values = JSON.parse(xhr.requestBody)

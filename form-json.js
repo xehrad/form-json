@@ -25,11 +25,12 @@
       // --- Handle checkboxes manually ---
       elt.querySelectorAll('input[type="checkbox"]').forEach(input => {
         if (!input.name) return
+        const wantsList = input.name.endsWith("[]");
         const key = input.name.endsWith("[]") ? input.name.slice(0, -2) : input.name
         const group = elt.querySelectorAll(`input[name="${input.name}"]`)
 
         // Multiple checkboxes → array of checked values
-        if (group.length > 1) {
+        if (group.length > 1 || wantsList) {
           if (!object[key]) object[key] = []
           if (input.checked) {
             const val = input.value && input.value !== "on" ? input.value : true
