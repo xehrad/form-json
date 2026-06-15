@@ -1,7 +1,8 @@
 {
   "name": "htmx-ext-form-json",
-  "main": "form-json.js",
-  "version": "1.0.10",
+  "main": "./form-json.js",
+  "module": "./form-json.esm.js",
+  "version": "1.0.11",
   "scripts": {
     "lint": "eslint test/ext test",
     "lint-fix": "eslint test/ext test --fix",
@@ -13,14 +14,18 @@
     "type": "git",
     "url": "git+https://github.com/xehrad/form-json.git"
   },
+  "peerDependencies": {
+    "htmx.org": "^2.0.4"
+  },
   "devDependencies": {
+    "htmx.org": "^2.0.4",
     "chai": "^4.3.10",
     "chai-dom": "^1.12.0",
     "mocha": "10.1.0",
     "mocha-chrome": "git+https://github.com/Telroshan/mocha-chrome.git",
-    "sinon": "^9.2.4",
-    "htmx.org": "^2.0.4"
+    "sinon": "^9.2.4"
   },
+  "sideEffects": true,
   "description": "An HTMX extension for automatic type conversion in form data encoding. automatically converts values based on input types, ensuring correct data representation in JSON without requiring additional attributes or configuration.",
   "directories": {
     "test": "test"
@@ -38,5 +43,11 @@
   "bugs": {
     "url": "https://github.com/xehrad/form-json/issues"
   },
-  "homepage": "https://github.com/xehrad/form-json"
+  "homepage": "https://github.com/xehrad/form-json",
+    "exports": {
+    ".": {
+      "require": "./form-json.js",
+      "import": "./form-json.esm.js"
+    }
+  }
 }
