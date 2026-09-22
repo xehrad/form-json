@@ -1,3 +1,5 @@
+
+
 # form-json
 This is an [HTMX](https://htmx.org/) extension that enables the transformation of form data into a structured JSON object. The extension supports the [HTML JSON form](https://www.w3.org/TR/html-json-forms/) specification and works seamlessly with all examples outlined in the standard.
 
@@ -6,7 +8,7 @@ This is an [HTMX](https://htmx.org/) extension that enables the transformation o
 - **JSON Serialization**: Converts form inputs into a JSON object.
 - **Nested Structures**: Supports complex nested structures with dot (`.`) or bracket (`[]`) notation.
 - **Array and Object Handling**: Automatically detects arrays, objects, and scalar values based on field names and their indices.
-- **Type Preservation**: Ensures correct typing for number, boolean, file, and other input types.
+- **Type Preservation**: Ensures correct typing for number, boolean, range, and other input types.
 - **Compatibility with `htmx`**: Integrates with `htmx` events to set appropriate headers and handle form submissions.
 
 ## Install
