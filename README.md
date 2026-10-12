@@ -13,9 +13,15 @@ This is an [HTMX](https://htmx.org/) extension that enables the transformation o
 
 Add the JavaScript file to your project and include it in your HTML:
 
+
 ```html
-<script src="https://unpkg.com/htmx.org@2.0.4"></script>
-<script src="https://unpkg.com/htmx-ext-form-json"></script>
+<!-- HTMX V2 -->
+<script src="https://unpkg.com/htmx.org@2.0.11"></script>
+<script src="https://unpkg.com/htmx-ext-form-json/v2"></script>
+
+<!-- HTMX V4 -->
+<script src="https://unpkg.com/htmx.org@4.0.0"></script>
+<script src="https://unpkg.com/htmx-ext-form-json/v4"></script>
 ```
 
 Enable the extension in your htmx configuration:

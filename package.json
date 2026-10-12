@@ -7,7 +7,9 @@
     "lint": "eslint test/ext test",
     "lint-fix": "eslint test/ext test --fix",
     "format": "eslint --fix test/ext test",
-    "test": "mocha-chrome test/index.html",
+    "test": "npm run test:v2 && npm run test:v4",
+    "test:v2": "mocha-chrome test/v2/index.html",
+    "test:v4": "mocha-chrome test/v4/index.html",
     "www": "bash ./scripts/www.sh"
   },
   "repository": {
@@ -18,7 +20,7 @@
     "htmx.org": "^2.0.4"
   },
   "devDependencies": {
-    "htmx.org": "^2.0.4",
+    "htmx.org": "^2.0.11",
     "chai": "^4.3.10",
     "chai-dom": "^1.12.0",
     "mocha": "10.1.0",
@@ -44,10 +46,21 @@
     "url": "https://github.com/xehrad/form-json/issues"
   },
   "homepage": "https://github.com/xehrad/form-json",
-    "exports": {
+  "exports": {
     ".": {
+      "import": "./form-json.esm.js",
       "require": "./form-json.js",
-      "import": "./form-json.esm.js"
+      "default": "./form-json.js"
+    },
+    "./v2": {
+      "import": "./form-json.esm.js",
+      "require": "./form-json.js",
+      "default": "./form-json.js"
+    },
+    "./v4": {
+      "import": "./form-json-v4.js",
+      "require": "./form-json-v4.js",
+      "default": "./form-json-v4.js"
     }
   }
 }
