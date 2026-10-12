@@ -2,7 +2,7 @@
   "name": "htmx-ext-form-json",
   "main": "./form-json.js",
   "module": "./form-json.esm.js",
-  "version": "1.0.11",
+  "version": "1.1.0",
   "scripts": {
     "lint": "eslint test/ext test",
     "lint-fix": "eslint test/ext test --fix",
